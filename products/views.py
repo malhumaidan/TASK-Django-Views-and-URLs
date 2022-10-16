@@ -1,3 +1,4 @@
+from itertools import product
 from math import prod
 from multiprocessing import context
 from os import name
@@ -37,3 +38,18 @@ def get_product(request, product_id):
         }
     }
     return render(request, "product_detail.html", context)
+
+
+def get_products(request):
+    products = Product.objects.all()
+    products_list = []
+    for product in products:
+        products_list.append(
+            {
+                "name": product.name,
+                "description": product.description,
+                "price": product.price,
+            }
+        )
+    context = {"products": products_list}
+    return render(request, "product-list.html", context)
